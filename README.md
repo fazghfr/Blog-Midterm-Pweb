@@ -5,6 +5,8 @@
 
 Contribution 
 ## Ahmad Fauzan Alghifari - 50%
+    Making the database design, either CDM or PDM
+
     Handling user authentication, and all the features needed for it. 
     in our case, we have 3 entities. Comment, Blog and Users. Every creation
     of comment and blog operation has to come from an authenticated user.
