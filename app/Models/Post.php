@@ -22,4 +22,8 @@ class Post extends Model
     public function total_comments() {
         return $this->comments()->count();
     }
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 }

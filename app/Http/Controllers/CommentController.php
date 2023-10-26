@@ -35,9 +35,11 @@ class CommentController extends Controller
 
         $comment = $request->comment;
         $post_id = $request->post_id;
+        $user_id = $request->user_id;
 
         Comment::insert([
             'comment' => $comment,
+            'user_id' => $user_id,
             'post_id' => $post_id,
             'created_at' => date('Y-m-d H:i:s'),
         ]);

@@ -28,15 +28,18 @@ class PostController extends Controller
         // ];
         // dd($posts);
 
-        if(!Auth::check()) {
+        if (!Auth::check()) {
             return redirect('login');
-        } 
+        }
 
         $db_posts = Post::active()->get();
         $posts = [
             'posts' => $db_posts
         ];
-        return view('posts.index', $posts);
+
+        $db_usernames = $db_posts->pluck('user.username');
+
+        return view('posts.index', $posts, ['db_usernames' => $db_usernames]);
     }
 
     /**
@@ -46,7 +49,7 @@ class PostController extends Controller
     {
         if (!Auth::check()) {
             return redirect('login');
-        } 
+        }
 
         return view('posts.create');
     }
@@ -58,8 +61,8 @@ class PostController extends Controller
     {
         if (!Auth::check()) {
             return redirect('login');
-        } 
-        
+        }
+
         $title = $request->title;
         $content = $request->content;
         $active = $request->active;
@@ -67,13 +70,15 @@ class PostController extends Controller
             $active = 1;
         } else {
             $active = 0;
-        }   
-        // dd($title, $content, $active);
+        }
+        $user_id = $request->user_id;
+        // dd($title, $content, $active, $user_id);
 
         Post::insert([
             'title' => $title,
             'content' => $content,
             'active' => $active,
+            'user_id' => $user_id,
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
@@ -105,14 +110,19 @@ class PostController extends Controller
 
         if (!Auth::check()) {
             return redirect('login');
-        } 
+        }
 
-        $db_post = Post::where('id', $id)->first();
-        $post = $db_post;
-        $comments = $db_post->comments()->get();
+        $post = Post::findOrFail($id); // Use findOrFail to retrieve the post by ID.
+        $comments = $post->comments()->get();
         $total_comments = $post->total_comments();
+        $db_username = $post->user->username; // Access the username through the "user" relationship.
 
-        return view('posts.show', ['post' => $post, 'comments' => $comments, 'total_comments' => $total_comments]);
+        return view('posts.show', compact(
+            'post',
+            'comments',
+            'total_comments',
+            'db_username'
+        ));
     }
 
     /**
@@ -122,7 +132,7 @@ class PostController extends Controller
     {
         if (!Auth::check()) {
             return redirect('login');
-        } 
+        }
 
         $db_post = Post::where('id', $id)->first();
         $post = $db_post;
@@ -137,7 +147,7 @@ class PostController extends Controller
     {
         if (!Auth::check()) {
             return redirect('login');
-        } 
+        }
 
         $title = $request->input('title');
         $content = $request->input('content');

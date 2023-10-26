@@ -6,6 +6,8 @@
 <h1>Create Comment</h1>
 <form method="POST" action="{{ url('comments') }}" class="form-control">
     @csrf
+    
+    <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
     <input type="hidden" name="post_id" value="{{ $post->id }}">
     <div class="mb-3">
         <label for="comment" class="form-label">Comment</label>
