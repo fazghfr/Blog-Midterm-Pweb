@@ -5,16 +5,15 @@
 
 Contribution 
 ## Ahmad Fauzan Alghifari - 50%
-    Making the database design, either CDM or PDM
+    -     CRUD for users
+    -    Authentication or login, and the view 
+    -    Register view and logic
+    -    Bug fixing for forbidden page, where a person might access someone else's private page
+    -    Adding Search Feature
+    -    Adding read posts from a current authenticated user
+    -    User validation for forbidden bug
+    -    Adding a private label for a private posts
 
-    Handling user authentication, and all the features needed for it. 
-    in our case, we have 3 entities. Comment, Blog and Users. Every creation
-    of comment and blog operation has to come from an authenticated user.
-
-    fixing vital bugs, for example. we had a bug about a unauthorized user
-    accessing some private blog. 
-    
-    adding view for login and register
     those are handled by fauzan
 
 ## Vito Febrian Ananta - 50%
