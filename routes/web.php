@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\DB;
 */
 
 Route::get('/', [PostController::class, 'index']); // read all posts
+Route::get('/search', [PostController::class, 'search'])->name('search');
 Route::get('posts', [PostController::class, 'index']); // read all posts
 Route::post('posts', [PostController::class, 'store']);
 Route::get('posts/create', [PostController::class, 'create']);

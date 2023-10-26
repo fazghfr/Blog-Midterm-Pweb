@@ -7,9 +7,28 @@
     <title>Blog</title>
     <link rel="stylesheet" href="{{ asset('bootstrap-5.3.2/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('bootstrap-5.3.2/js/bootstrap.bundle.min.css') }}">
+    <style>
+        .bg {
+            background: linear-gradient(to right, #80ffdb, #5390d9, #7400b8);
+            background-size: 200% 200%;
+            animation: gradient 15s ease infinite;
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+    </style>
 </head>
 
-<body>
+<body class="bg">
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
             <a class="navbar-brand" href="{{ url('home') }}">My Blog</a>
@@ -49,13 +68,23 @@
         </div>
     </nav>
     <div class="container">
-        @if (Auth::check())
-            <a href="{{ url('posts/create') }}" class="btn btn-success mb-3">+ Create New Post</a>
-        @else
-            <a href="{{ url('login') }}" class="btn btn-success mb-3">Login to Post a blog</a>
-        @endif
-        <a href="{{ url('home') }}" class="btn btn-success mb-3">Home</a>
-
+        <br>
+        <form action="{{ route('search') }}" method="GET" class="form-inline my-2 my-lg-0 justify-content-end">
+            <div class="d-flex">
+                <input class="form-control mr-2" type="text" name="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
+            </div>
+            <br>
+        </form>
+        
+        <div class="text-center">
+            @if (Auth::check())
+                <a href="{{ url('posts/create') }}" class="btn btn-success mb-3">+ Create New Post</a>
+            @else
+                <a href="{{ url('login') }}" class="btn btn-success mb-3">Login to Post a blog</a>
+            @endif
+        </div>
+        
         @foreach ($posts as $post)
         <div class="card mb-3">
             <div class="card-body">

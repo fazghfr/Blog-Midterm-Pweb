@@ -22,5 +22,8 @@ class RegisterController extends Controller
         ]);
 
         User::create($validated);
+        return view('login.index', [
+            'title' => 'login'
+        ]);
     }
 }

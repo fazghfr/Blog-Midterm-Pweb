@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -31,7 +32,7 @@ class PostController extends Controller
         // dd($posts);
 
 
-        $db_posts = Post::active()->get();
+        $db_posts = Post::active()->orderBy('created_at', 'desc')->get();
         $posts = [
             'posts' => $db_posts
         ];
@@ -44,6 +45,28 @@ class PostController extends Controller
     public function create()
     {
         return view('posts.create');
+    }
+
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+
+        $user_search = User::where('name', 'like', "%$search%")->get('id');
+
+        $db_posts = Post::whereIn('users_id', $user_search)
+            ->orWhere(function($query) use ($search) {
+                $query->where('title', 'like', "%$search%")
+                      ->orWhere('content', 'like', "%$search%")
+                      ->orWhere('created_at', 'like', "%$search%")
+                      ->orWhere('updated_at', 'like', "%$search%");
+            })
+            ->where('active', true)
+            ->get();
+
+        $posts = [
+            'posts' => $db_posts
+        ];
+        return view('posts.index', $posts);
     }
 
     /**
@@ -107,7 +130,7 @@ class PostController extends Controller
             }
         }
         
-        return view('login.index');
+        return view('error.forbidden');
     }
 
     /**
