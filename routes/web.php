@@ -1,10 +1,8 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\HomeDController;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,17 +15,23 @@ use App\Http\Controllers\HomeDController;
 |
 */
 
-Route::get('/', function () {
+Route::get('/welcome', function () {
     return view('welcome');
 });
 
-Route::get('/login',  [LoginController::class, 'index'])->middleware('guest');
-Route::post('/login',  [LoginController::class, 'authenticate']);
-Route::post('/logout',  [LoginController::class, 'logout']);
+Route::get('posts', [PostController::class, 'index']); // read all posts
+Route::post('posts', [PostController::class, 'store']); // create new post
+Route::get('posts/create', [PostController::class, 'create']); // read form create new post
+Route::get('posts/{id}', [PostController::class, 'show']); // read single post
+Route::get('posts/{id}/edit', [PostController::class, 'edit']); // read form edit post
+Route::patch('posts/{id}', [PostController::class,'update']); // update post
+Route::delete('posts/{id}', [PostController::class,'destroy']); // delete post
 
-
-Route::get('/dashboard',  [DashboardController::class, 'index']);
-Route::get('/home',  [HomeController::class, 'index']);
-
-Route::get('/register',  [RegisterController::class, 'index']);
-Route::post('/register',  [RegisterController::class, 'store']);
+Route::get('/test-database', function () {
+    try {
+        DB::connection()->getPdo();
+        print_r("Connected successfully to: " . DB::connection()->getDatabaseName());
+    } catch (\Exception $e) {
+        die("Could not connect to the database.  Please check your configuration. Error:" . $e);
+    }
+});
