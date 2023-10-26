@@ -107,22 +107,16 @@ class PostController extends Controller
         //         $dummy_detail_post = $dummy_post;
         //     }
         // }
-
-        // if (!Auth::check()) {
-        //     return redirect('login');
-        // }
-
-        $post = Post::findOrFail($id); // Use findOrFail to retrieve the post by ID.
-        $comments = $post->comments()->get();
-        $total_comments = $post->total_comments();
-        $db_username = $post->user->username; // Access the username through the "user" relationship.
-
-        return view('posts.show', compact(
-            'post',
-            'comments',
-            'total_comments',
-            'db_username'
-        ));
+        $db_post = Post::where('id', $id)->first();
+        
+        if(Auth::check()){
+            if(Auth::user()->id == $db_post->users_id){
+                $post = $db_post;
+                return view('posts.show', ['post' => $post]);
+            }
+        }
+        
+        return view('error.forbidden');
     }
 
     /**
