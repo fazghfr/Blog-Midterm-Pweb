@@ -1,28 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog | Title: {{ $post->title }} </title>
-    <link rel="stylesheet" href="{{ asset('bootstrap-5.3.2/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/blog.css') }}">
-    <link rel="stylesheet" href="{{ asset('bootstrap-5.3.2/js/bootstrap.bundle.min.css') }}">
-</head>
+@section('title', "Blog | $post->title")
 
-<body>
+@section('content')
+<article class="blog-post">
+    <h2 class="display-5 link-body-emphasis mb-1">{{ $post->title }}</h2>
+    <p class="blog-post-meta"> {{ date("d M Y H:i", strtotime($post->updated_at)) }}</p>
 
-    <div class="container">
-        <article class="blog-post">
-            <h2 class="display-5 link-body-emphasis mb-1">{{ $post->title }}</h2>
-            <p class="blog-post-meta"> {{ date("d M Y H:i", strtotime($post->updated_at)) }}</p>
+    <p>{{ $post->content }}</p>
+    <hr>
 
-            <p>{{ $post->content }}</p>
-            <hr>
-
-            <a href="{{ url('posts') }}" class="btn btn-primary">Back</a>
-        </article>
+    <small class="text-muted"> {{ $total_comments }} comments </small>
+    @foreach($comments as $comment)
+    <div class="card mb-3">
+        <div class="card-body">
+            <p>{{ $comment->comment }}</p>
+            <a href="{{ url("comments/$comment->id/edit/$post->id") }}" class="btn btn-warning">Edit</a>
+        </div>
     </div>
-</body>
+    @endforeach
 
-</html>
+    <a href="{{ url("comments/create/$post->id") }}" class="btn btn-primary">Add comment</a>
+    <hr>
+
+    <a href="{{ url('posts') }}" class="btn btn-primary">Back</a>
+</article>
+@endsection
