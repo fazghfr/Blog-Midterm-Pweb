@@ -16,8 +16,12 @@ Contribution
     
     adding view for login and register
     those are handled by fauzan
+
 ## Vito Febrian Ananta - 50%
     Handling migration for comments and blog. And how those two entities interact.
-    the CRUD for both are handled by this person. 
+    the CRUD for both entities. 
+
+    polishing the view for all posts, spesific posts, and comments.
 
     adding view for viewing posts, navbar, and so on
+    those are handled by vito
