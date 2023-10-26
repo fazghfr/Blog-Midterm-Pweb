@@ -13,6 +13,7 @@ return new class extends Migration
             $table->string('nama_blog', 100);
             $table->string('konten', 2048);
             $table->boolean('is_public')->default(true);
+            $table->foreignId('users_id')->constrained('users');
             $table->timestamps();
         });
     }

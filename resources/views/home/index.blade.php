@@ -11,6 +11,16 @@
         <p>This is a simple home page created using HTML and Bootstrap.</p>
     </div>
 
+    <form action="/login" method="GET">
+        @csrf
+        <button type="submit">Login</button>
+    </form>
+
+    <form action="/register" method="GET">
+        @csrf
+        <button type="submit">Register</button>
+    </form>
+
     <!-- Bootstrap JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
