@@ -24,7 +24,9 @@
             </p>
             <hr>
             <p>{{ $comment->comment }}</p>
+            @if(Auth::check() && Auth::user()->id == $comment->user_id)
             <a href="{{ url("comments/$comment->id/edit/$post->id") }}" class="btn btn-warning">Edit</a>
+            @endif
         </div>
     </div>
     @endforeach

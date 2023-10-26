@@ -28,9 +28,9 @@ class PostController extends Controller
         // ];
         // dd($posts);
 
-        if (!Auth::check()) {
-            return redirect('login');
-        }
+        // if (!Auth::check()) {
+        //     return redirect('login');
+        // }
 
         $db_posts = Post::active()->get();
         $posts = [
@@ -108,9 +108,9 @@ class PostController extends Controller
         //     }
         // }
 
-        if (!Auth::check()) {
-            return redirect('login');
-        }
+        // if (!Auth::check()) {
+        //     return redirect('login');
+        // }
 
         $post = Post::findOrFail($id); // Use findOrFail to retrieve the post by ID.
         $comments = $post->comments()->get();

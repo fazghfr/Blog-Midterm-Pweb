@@ -28,6 +28,7 @@ Route::get('register', [AuthController::class, 'register']); // read form regist
 Route::post('register', [AuthController::class, 'register_user']); // create new user
 
 Route::get('posts', [PostController::class, 'index']); // read all posts
+Route::get('/', [PostController::class, 'index']); // read all posts
 Route::post('posts', [PostController::class, 'store']); // create new post
 Route::get('posts/create', [PostController::class, 'create']); // read form create new post
 Route::get('posts/{id}', [PostController::class, 'show']); // read single post

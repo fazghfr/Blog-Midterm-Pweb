@@ -26,7 +26,9 @@
             by {{ $post->user->username }}
         </p>
         <a href="{{ url("posts/$post->id") }}" class="btn btn-primary">Full post</a>
+        @if(Auth::check() && Auth::user()->id == $post->user_id)
         <a href="{{ url("posts/$post->id/edit") }}" class="btn btn-warning">Edit</a>
+        @endif
     </div>
 </div>
 @endforeach
