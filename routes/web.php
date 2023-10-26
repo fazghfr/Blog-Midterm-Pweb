@@ -3,6 +3,7 @@
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\MypageController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 
@@ -27,7 +28,9 @@ Route::get('logout', [AuthController::class, 'logout'])->middleware('auth');; //
 Route::get('register', [AuthController::class, 'register']); // read form register
 Route::post('register', [AuthController::class, 'register_user']); // create new user
 
-Route::get('posts', [PostController::class, 'index']); // read all posts
+Route::get('/search', [PostController::class, 'search'])->name('search');
+Route::get('posts', [PostController::class, 'index'])->name('posts'); // read all posts
+Route::get('mypage', [MypageController::class, 'index']); // read all posts
 Route::get('/', [PostController::class, 'index']); // read all posts
 Route::post('posts', [PostController::class, 'store']); // create new post
 Route::get('posts/create', [PostController::class, 'create']); // read form create new post

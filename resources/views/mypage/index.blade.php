@@ -15,14 +15,6 @@
 <div class="alert alert-success">
     Total posts: {{ $posts->count() }}
 </div>
-
-<form action="{{ route('search') }}" method="GET" class="form-inline my-2 my-lg-0 justify-content-end">
-    <div class="d-flex">
-        <input class="form-control mr-2" type="text" name="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
-    </div>
-    <br>
-</form>
 @foreach ($posts as $post)
 <div class="card mb-3">
     <div class="card-body">
@@ -34,8 +26,10 @@
             by {{ $post->user->username }}
         </p>
         <a href="{{ url("posts/$post->id") }}" class="btn btn-primary">Full post</a>
-        @if(Auth::check() && Auth::user()->id == $post->user_id)
         <a href="{{ url("posts/$post->id/edit") }}" class="btn btn-warning">Edit</a>
+
+        @if ($post->active == false)
+            <a href="{{ url("/mypage") }}" class="btn btn-danger">Private</a>
         @endif
     </div>
 </div>

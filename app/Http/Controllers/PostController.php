@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -41,7 +42,6 @@ class PostController extends Controller
 
         return view('posts.index', $posts, ['db_usernames' => $db_usernames]);
     }
-
     /**
      * Show the form for creating a new resource.
      */
@@ -183,5 +183,27 @@ class PostController extends Controller
         Post::where('id', $id)->delete();
 
         return redirect('posts');
+    }
+
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+
+        $user_search = User::where('username', 'like', "%$search%")->get('id');
+
+        $db_posts = Post::whereIn('user_id', $user_search)
+            ->orWhere(function($query) use ($search) {
+                $query->where('title', 'like', "%$search%")
+                      ->orWhere('content', 'like', "%$search%")
+                      ->orWhere('created_at', 'like', "%$search%")
+                      ->orWhere('updated_at', 'like', "%$search%");
+            })
+            ->where('active', true)
+            ->get();
+
+        $posts = [
+            'posts' => $db_posts
+        ];
+        return view('posts.index', $posts);
     }
 }

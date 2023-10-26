@@ -17,7 +17,7 @@
                 <a href="{{ url('login') }}" class="btn btn-outline-light me-2">Login</a>
                 <a href="{{ url('register') }}" class="btn btn-outline-light me-2">Register</a>
                 @else
-                <span class="px-2 text-white">{{ Auth::user()->username }}</span>
+                <a href="{{ url('mypage') }}"><span class="px-2 text-white">{{ Auth::user()->username }}</span></a>
                 <a href="{{ url('logout') }}" class="btn btn-outline-light me-2">Logout</a>
                 @endif
             </div>
