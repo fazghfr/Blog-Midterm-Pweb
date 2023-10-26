@@ -28,7 +28,7 @@
                         </li>
 
                         <li class="nav-item ml-auto">
-                            <form action="{{ url('mypage') }}" method="GET">
+                            <form action="{{ url('home') }}" method="GET">
                                     @csrf
                                     <button type="submit" class="nav-link btn btn-link">Welcome, {{ Auth::user()->name }} </button>
                             </form>
@@ -48,7 +48,10 @@
             </div>
         </div>
     </nav>
+
     <div class="container">
+        
+         <h3>Showing Only Your Blogs</h3>
         @if (Auth::check())
             <a href="{{ url('posts/create') }}" class="btn btn-success mb-3">+ Create New Post</a>
         @else
@@ -67,8 +70,9 @@
                 <a href="{{ url("posts/$post->id") }}" class="btn btn-primary">Full post</a>
                 @if (Auth::check() && $post->users_id && Auth::user()->id == $post->users_id)
                     <a href="{{ url("posts/$post->id/edit") }}" class="btn btn-warning">Edit</a>
-                @else
-                    
+                @endif
+                @if (!$post->active)
+                    <a href="{{ url("mypage") }}" class="btn btn-danger">Private</a>
                 @endif
             </div>
         </div>
@@ -78,4 +82,3 @@
 </body>
 
 </html>
-

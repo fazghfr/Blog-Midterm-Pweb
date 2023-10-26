@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+
 
 class PostController extends Controller
 {
@@ -57,16 +59,21 @@ class PostController extends Controller
         } else {
             $active = 0;
         }   
-        // dd($title, $content, $active);
+        $user = Auth::user();
+
+        if(!$user){
+            return redirect('/login');
+        }
 
         Post::insert([
+            'users_id' => $user->id, // Store the user's ID
             'title' => $title,
             'content' => $content,
             'active' => $active,
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
-
+    
         return redirect('posts');
     }
 
@@ -91,11 +98,16 @@ class PostController extends Controller
         //         $dummy_detail_post = $dummy_post;
         //     }
         // }
-
         $db_post = Post::where('id', $id)->first();
-        $post = $db_post;
-
-        return view('posts.show', ['post' => $post]);
+        
+        if(Auth::check()){
+            if(Auth::user()->id == $db_post->users_id){
+                $post = $db_post;
+                return view('posts.show', ['post' => $post]);
+            }
+        }
+        
+        return view('login.index');
     }
 
     /**
