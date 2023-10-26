@@ -17,10 +17,13 @@ Contribution
     those are handled by fauzan
 
 ## Vito Febrian Ananta - 50%
-    Handling migration for comments and blog. And how those two entities interact.
-    the CRUD for both entities. 
-
-    polishing the view for all posts, spesific posts, and comments.
-
-    adding view for viewing posts, navbar, and so on
+    - CRUD posts
+    - CRUD comments
+    - Integrate relations between posts and comments
+    - Header layouts
+    - Footer layouts
+    - Basic stylting
+    - Migrations for posts
+    - Migrations for comments
+    
     those are handled by vito
