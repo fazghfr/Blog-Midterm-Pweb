@@ -107,18 +107,39 @@ class PostController extends Controller
         //         $dummy_detail_post = $dummy_post;
         //     }
         // }
+        $post = Post::findOrFail($id); // Use findOrFail to retrieve the post by ID.
+        $comments = $post->comments()->get();
+        $total_comments = $post->total_comments();
+        $db_username = $post->user->username; // Access the username through the "user" relationship.
+
+
         $db_post = Post::where('id', $id)->first();
         
-        if(Auth::check()){
-            if(Auth::user()->id == $db_post->users_id){
+        if(Auth::check() && $db_post->active){
+                return view('posts.show', compact(
+                    'post',
+                    'comments',
+                    'total_comments',
+                    'db_username'
+                ));
+        } 
+        
+        if(Auth::check() && !$db_post->active){
+            if(Auth::user()->id == $db_post->user_id){
                 $post = $db_post;
-                return view('posts.show', ['post' => $post]);
+                return view('posts.show', compact(
+                    'post',
+                    'comments',
+                    'total_comments',
+                    'db_username'
+                ));
             }
-        }
+        } 
+        
+        
         
         return view('error.forbidden');
     }
-
     /**
      * Show the form for editing the specified resource.
      */
@@ -200,4 +221,6 @@ class PostController extends Controller
         ];
         return view('posts.index', $posts);
     }
+    
+    
 }
